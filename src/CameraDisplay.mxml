@@ -31,12 +31,7 @@
 					return;
 				}
 				
-				var cam:Camera;
-				for (var i:uint = 0; i < Camera.names.length; ++i)
-				{
-					cam = Camera.getCamera(String(i));
-					if (cam.position == this.position) break;
-				}
+				var cam:Camera = this.getCamera(this.position);
 				
 				cam.setMode(400, 300, 30, false);
 				cam.setMotionLevel(0);
@@ -51,6 +46,19 @@
 				uic.y = ((videoDisplay.height/2) - (this.video.height/2)) - 50;
 				this.videoDisplay.addElement(uic);
 			}
+			
+			// Get the requested camera. If it cannot be found,
+			// return the device's default camera.
+			private function getCamera(position:String):Camera
+			{
+				for (var i:uint = 0; i < Camera.names.length; ++i)
+				{
+					var cam:Camera = Camera.getCamera(String(i));
+					if (cam.position == position) return cam;
+				}
+				return Camera.getCamera();
+			}
+			
 		]]>
 	</fx:Script>
 
